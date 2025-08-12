@@ -17,32 +17,32 @@ const SUPPORTED_WALLETS = [
         name: 'Phantom',
         adapter: 'phantom',
         icon: 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjM0IiB3aWR0aD0iMzQiIHZpZXdCb3g9IjAgMCAzNCAzNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGxpbmVhckdyYWRpZW50IGlkPSJwaGFudG9tLWdyYWRpZW50IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjEuMTUiIHgyPSIyOS4xMyIgeTE9IjI5LjUiIHkyPSIxLjEzIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzlENzlGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNBQjhERkYiLz4KPC9saW5lYXJHcmFkaWVudD4KPHBhdGggZD0iTTE3IDBDMjYuMzg5IDAgMzQgNy42MTEgMzQgMTdDMzQgMjYuMzg5IDI2LjM4OSAzNCAxNyAzNEM3LjYxMSAzNCAwIDI2LjM4OSAwIDE3QzAgNy42MTEgNy42MTEgMCAxNyAwWiIgZmlsbD0idXJsKCNwaGFudG9tLWdyYWRpZW50KSIvPgo8L3N2Zz4K',
-        url: 'https://phantom.app/',
-        deepLink: 'https://phantom.app/ul/browse/',
+        url: 'https://phantom.app/download',
+        deepLink: 'https://phantom.app/ul/browse/' + encodeURIComponent(window.location.href),
         description: 'Carteira popular para Solana'
     },
     {
         name: 'Solflare',
         adapter: 'solflare',
         icon: 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjUwIiB2aWV3Qm94PSIwIDAgNTAgNTAiIHdpZHRoPSI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJhZGlhbEdyYWRpZW50IGlkPSJhIiBjeD0iMCIgY3k9IjAiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoLTguMzYwNTMgMTMuMjU5OSAyNC41MjE0IDUuMDA0NTMgMjMuNDgwMSA4LjY5OTkxKSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmNkMDAiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmY5NDAwIi8+CjwvcmFkaWFsR3JhZGllbnQ+CjxwYXRoIGQ9Im0yNS4wIDI1IDI0Ljk5OTEtMjQuOTk5MWgtNDkuOTk4Mmw0OS45OTgyIDQ5Ljk5ODJ2LTI1eiIgZmlsbD0idXJsKCNhKSIvPgo8L3N2Zz4K',
-        url: 'https://solflare.com/',
-        deepLink: 'https://solflare.com/access-wallet',
+        url: 'https://solflare.com/download',
+        deepLink: 'https://solflare.com/ul/v1/browse/' + encodeURIComponent(window.location.href),
         description: 'Carteira segura com suporte NFT'
     },
     {
         name: 'Backpack',
         adapter: 'backpack',
         icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMTAiIGZpbGw9IiMwMDAwMDAiLz4KPHBhdGggZD0iTTI1IDI1SDc1VjMwSDI1VjI1WiIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4K',
-        url: 'https://www.backpack.app/',
-        deepLink: 'https://www.backpack.app/',
+        url: 'https://www.backpack.app/download',
+        deepLink: 'https://backpack.app/ul/browse/' + encodeURIComponent(window.location.href),
         description: 'Carteira moderna da Coral'
     },
     {
         name: 'Glow',
         adapter: 'glow',
         icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIiBmaWxsPSIjRkZEODAwIi8+Cjwvc3ZnPg==',
-        url: 'https://glow.app/',
-        deepLink: 'https://glow.app/',
+        url: 'https://glow.app/download',
+        deepLink: 'https://glow.app/ul/browse/' + encodeURIComponent(window.location.href),
         description: 'Carteira com foco em DeFi'
     }
 ];
@@ -110,12 +110,28 @@ function truncateAddress(address, length = 8) {
 }
 
 function detectMobile() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    
+    // Detecção mais precisa para dispositivos móveis
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    const isTablet = /ipad|android(?!.*mobile)/i.test(userAgent);
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    return isMobile || (isTablet && isTouchDevice);
 }
 
 function detectWallet(walletName) {
-    const windowWallet = window[walletName];
-    const solanaSollet = window.solana;
+    // No mobile, as carteiras não injetam objetos no window
+    // Vamos detectar via User Agent e assumir que estão instaladas se o dispositivo for mobile
+    const isMobile = detectMobile();
+    
+    if (isMobile) {
+        // No mobile, assumimos que as carteiras populares podem estar instaladas
+        // A detecção real acontece quando tentamos conectar
+        return true;
+    }
+    
+    // Desktop: detecção normal via window objects
     const phantom = window.phantom?.solana;
     const solflare = window.solflare;
     const backpack = window.backpack;
@@ -123,15 +139,15 @@ function detectWallet(walletName) {
     
     switch (walletName) {
         case 'phantom':
-            return phantom && phantom.isPhantom;
+            return isMobile || (phantom && phantom.isPhantom);
         case 'solflare':
-            return solflare && solflare.isSolflare;
+            return isMobile || (solflare && solflare.isSolflare);
         case 'backpack':
-            return backpack && backpack.isBackpack;
+            return isMobile || (backpack && backpack.isBackpack);
         case 'glow':
-            return glow;
+            return isMobile || glow;
         default:
-            return windowWallet || solanaSollet;
+            return isMobile || window.solana;
     }
 }
 
@@ -161,18 +177,40 @@ class WalletInterface {
     }
     
     async connect() {
-        const walletAdapter = detectWallet(this.config.adapter);
+        const isMobile = detectMobile();
+        const walletAdapter = !isMobile ? detectWallet(this.config.adapter) : null;
+        
+        if (isMobile) {
+            // No mobile, sempre tentamos abrir via deep link
+            showToast(`Abrindo ${this.config.name}...`, 'info');
+            
+            // Tentar diferentes métodos de deep link
+            const deepLinkUrl = this.config.deepLink;
+            
+            // Método 1: Tentar abrir o deep link diretamente
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = deepLinkUrl;
+            document.body.appendChild(iframe);
+            
+            // Método 2: Fallback para window.open após um delay
+            setTimeout(() => {
+                window.open(deepLinkUrl, '_blank');
+                document.body.removeChild(iframe);
+            }, 1000);
+            
+            // Método 3: Se nada funcionar, abrir a página de download
+            setTimeout(() => {
+                showToast(`Se ${this.config.name} não abriu, você pode baixá-la aqui`, 'info', 5000);
+            }, 3000);
+            
+            return null;
+        }
         
         if (!walletAdapter) {
-            if (detectMobile()) {
-                showToast(`Abrindo ${this.config.name}...`, 'info');
-                window.open(this.config.deepLink + window.location.href, '_blank');
-                return null;
-            } else {
-                showToast(`${this.config.name} não está instalada`, 'error');
-                window.open(this.config.url, '_blank');
-                return null;
-            }
+            showToast(`${this.config.name} não está instalada`, 'error');
+            window.open(this.config.url, '_blank');
+            return null;
         }
         
         try {
@@ -388,11 +426,11 @@ function populateWalletOptions() {
     elements.walletOptions.innerHTML = '';
     
     SUPPORTED_WALLETS.forEach(wallet => {
-        const isInstalled = detectWallet(wallet.adapter);
         const isMobile = detectMobile();
+        const isInstalled = detectWallet(wallet.adapter);
         
         const option = document.createElement('div');
-        option.className = `wallet-option ${!isInstalled && !isMobile ? 'disabled' : ''}`;
+        option.className = 'wallet-option';
         
         option.innerHTML = `
             <img src="${wallet.icon}" alt="${wallet.name}" style="background: white; border-radius: 8px;">
@@ -400,18 +438,12 @@ function populateWalletOptions() {
                 <div class="wallet-option-name">${wallet.name}</div>
                 <div class="wallet-option-description">${wallet.description}</div>
             </div>
-            <div class="wallet-status ${isInstalled || isMobile ? 'available' : 'not-installed'}">
-                ${isInstalled ? 'Instalada' : isMobile ? 'Disponível' : 'Não instalada'}
+            <div class="wallet-status ${isMobile ? 'available' : isInstalled ? 'available' : 'not-installed'}">
+                ${isMobile ? 'Abrir App' : isInstalled ? 'Instalada' : 'Instalar'}
             </div>
         `;
         
-        if (isInstalled || isMobile) {
-            option.addEventListener('click', () => connectWallet(wallet));
-        } else {
-            option.addEventListener('click', () => {
-                window.open(wallet.url, '_blank');
-            });
-        }
+        option.addEventListener('click', () => connectWallet(wallet));
         
         elements.walletOptions.appendChild(option);
     });
@@ -524,10 +556,18 @@ if (typeof window.solanaWeb3 === 'undefined') {
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     console.log('🚀 Solana Wallet Connect Debug Mode');
     console.log('📱 Mobile:', detectMobile());
+    console.log('🌐 User Agent:', navigator.userAgent);
     console.log('💰 Carteiras detectadas:', {
         phantom: !!window.phantom?.solana,
         solflare: !!window.solflare,
         backpack: !!window.backpack,
         glow: !!window.glow
     });
+    
+    // Testar deep links no mobile
+    if (detectMobile()) {
+        console.log('📲 Testando deep links para mobile...');
+        console.log('Phantom:', 'https://phantom.app/ul/browse/' + encodeURIComponent(window.location.href));
+        console.log('Solflare:', 'https://solflare.com/ul/v1/browse/' + encodeURIComponent(window.location.href));
+    }
 }

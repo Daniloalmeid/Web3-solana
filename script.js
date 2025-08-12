@@ -18,7 +18,7 @@ const SUPPORTED_WALLETS = [
         adapter: 'phantom',
         icon: 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjM0IiB3aWR0aD0iMzQiIHZpZXdCb3g9IjAgMCAzNCAzNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGxpbmVhckdyYWRpZW50IGlkPSJwaGFudG9tLWdyYWRpZW50IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjEuMTUiIHgyPSIyOS4xMyIgeTE9IjI5LjUiIHkyPSIxLjEzIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzlENzlGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNBQjhERkYiLz4KPC9saW5lYXJHcmFkaWVudD4KPHBhdGggZD0iTTE3IDBDMjYuMzg5IDAgMzQgNy42MTEgMzQgMTdDMzQgMjYuMzg5IDI2LjM4OSAzNCAxNyAzNEM3LjYxMSAzNCAwIDI2LjM4OSAwIDE3QzAgNy42MTEgNy42MTEgMCAxNyAwWiIgZmlsbD0idXJsKCNwaGFudG9tLWdyYWRpZW50KSIvPgo8L3N2Zz4K',
         url: 'https://phantom.app/download',
-        deepLink: 'https://phantom.app/ul/browse/' + encodeURIComponent(window.location.href),
+        deepLink: 'phantom://open?url=' + encodeURIComponent(window.location.href),
         description: 'Carteira popular para Solana'
     },
     {
@@ -26,7 +26,7 @@ const SUPPORTED_WALLETS = [
         adapter: 'solflare',
         icon: 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjUwIiB2aWV3Qm94PSIwIDAgNTAgNTAiIHdpZHRoPSI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJhZGlhbEdyYWRpZW50IGlkPSJhIiBjeD0iMCIgY3k9IjAiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoLTguMzYwNTMgMTMuMjU5OSAyNC41MjE0IDUuMDA0NTMgMjMuNDgwMSA4LjY5OTkxKSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmNkMDAiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmY5NDAwIi8+CjwvcmFkaWFsR3JhZGllbnQ+CjxwYXRoIGQ9Im0yNS4wIDI1IDI0Ljk5OTEtMjQuOTk5MWgtNDkuOTk4Mmw0OS45OTgyIDQ5Ljk5ODJ2LTI1eiIgZmlsbD0idXJsKCNhKSIvPgo8L3N2Zz4K',
         url: 'https://solflare.com/download',
-        deepLink: 'https://solflare.com/ul/v1/browse/' + encodeURIComponent(window.location.href),
+        deepLink: 'solflare://ul/v1/browse/' + encodeURIComponent(window.location.href),
         description: 'Carteira segura com suporte NFT'
     },
     {
@@ -34,7 +34,7 @@ const SUPPORTED_WALLETS = [
         adapter: 'backpack',
         icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMTAiIGZpbGw9IiMwMDAwMDAiLz4KPHBhdGggZD0iTTI1IDI1SDc1VjMwSDI1VjI1WiIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4K',
         url: 'https://www.backpack.app/download',
-        deepLink: 'https://backpack.app/ul/browse/' + encodeURIComponent(window.location.href),
+        deepLink: 'backpack://open?url=' + encodeURIComponent(window.location.href),
         description: 'Carteira moderna da Coral'
     },
     {
@@ -42,7 +42,7 @@ const SUPPORTED_WALLETS = [
         adapter: 'glow',
         icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIiBmaWxsPSIjRkZEODAwIi8+Cjwvc3ZnPg==',
         url: 'https://glow.app/download',
-        deepLink: 'https://glow.app/ul/browse/' + encodeURIComponent(window.location.href),
+        deepLink: 'glow://open?url=' + encodeURIComponent(window.location.href),
         description: 'Carteira com foco em DeFi'
     }
 ];
@@ -111,27 +111,18 @@ function truncateAddress(address, length = 8) {
 
 function detectMobile() {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    
-    // Detecção mais precisa para dispositivos móveis
     const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
     const isTablet = /ipad|android(?!.*mobile)/i.test(userAgent);
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    
     return isMobile || (isTablet && isTouchDevice);
 }
 
 function detectWallet(walletName) {
-    // No mobile, as carteiras não injetam objetos no window
-    // Vamos detectar via User Agent e assumir que estão instaladas se o dispositivo for mobile
     const isMobile = detectMobile();
-    
     if (isMobile) {
-        // No mobile, assumimos que as carteiras populares podem estar instaladas
-        // A detecção real acontece quando tentamos conectar
-        return true;
+        return true; // Assumir que a carteira está instalada no mobile
     }
     
-    // Desktop: detecção normal via window objects
     const phantom = window.phantom?.solana;
     const solflare = window.solflare;
     const backpack = window.backpack;
@@ -139,15 +130,15 @@ function detectWallet(walletName) {
     
     switch (walletName) {
         case 'phantom':
-            return isMobile || (phantom && phantom.isPhantom);
+            return phantom && phantom.isPhantom;
         case 'solflare':
-            return isMobile || (solflare && solflare.isSolflare);
+            return solflare && solflare.isSolflare;
         case 'backpack':
-            return isMobile || (backpack && backpack.isBackpack);
+            return backpack && backpack.isBackpack;
         case 'glow':
-            return isMobile || glow;
+            return glow;
         default:
-            return isMobile || window.solana;
+            return window.solana;
     }
 }
 
@@ -181,9 +172,7 @@ class WalletInterface {
         const walletAdapter = !isMobile ? detectWallet(this.config.adapter) : null;
         
         if (isMobile) {
-            // No mobile, sempre tentamos abrir via deep link
-            showToast(`Abrindo ${this.config.name}...`, 'info');
-            
+            showToast(`Abrindo ${this Jonny Quest
             // Tentar diferentes métodos de deep link
             const deepLinkUrl = this.config.deepLink;
             
@@ -201,10 +190,34 @@ class WalletInterface {
             
             // Método 3: Se nada funcionar, abrir a página de download
             setTimeout(() => {
-                showToast(`Se ${this.config.name} não abriu, você pode baixá-la aqui`, 'info', 5000);
-            }, 3000);
+                if (!walletState.connected) {
+                    showToast(`Se ${this.config.name} não abriu, você pode baixá-la aqui`, 'info', 5000);
+                    window.open(this.config.url, '_blank');
+                }
+            }, 5000);
             
-            return null;
+            // Polling para verificar a conexão no mobile
+            let attempts = 0;
+            const maxAttempts = 10;
+            return new Promise((resolve) => {
+                const checkConnection = setInterval(async () => {
+                    attempts++;
+                    if (this.config.adapter === 'phantom' && window.phantom?.solana?.isConnected) {
+                        clearInterval(checkConnection);
+                        this.wallet = window.phantom.solana;
+                        const publicKey = this.wallet.publicKey.toString();
+                        resolve({ publicKey, wallet: this.wallet, name: this.config.name });
+                    } else if (this.config.adapter === 'solflare' && window.solflare?.isConnected) {
+                        clearInterval(checkConnection);
+                        this.wallet = window.solflare;
+                        const publicKey = this.wallet.publicKey.toString();
+                        resolve({ publicKey, wallet: this.wallet, name: this.config.name });
+                    } else if (attempts >= maxAttempts) {
+                        clearInterval(checkConnection);
+                        resolve(null);
+                    }
+                }, 1000);
+            });
         }
         
         if (!walletAdapter) {
@@ -214,8 +227,10 @@ class WalletInterface {
         }
         
         try {
-            let response;
+            // Limpar localStorage antes de conectar para evitar conflitos
+            localStorage.removeItem('walletState');
             
+            let response;
             switch (this.config.adapter) {
                 case 'phantom':
                     response = await window.phantom.solana.connect();
@@ -459,7 +474,6 @@ async function tryAutoReconnect() {
         const walletConfig = SUPPORTED_WALLETS.find(w => w.name === walletName);
         
         if (walletConfig && detectWallet(walletConfig.adapter)) {
-            // Tentar reconectar automaticamente
             const walletAdapter = detectWallet(walletConfig.adapter);
             if (walletAdapter && walletAdapter.isConnected) {
                 walletState.connected = true;
@@ -513,12 +527,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 disconnectWallet();
             }
         });
-    }
-    
-    // Detecção de mudança de conta
-    if (window.phantom?.solana) {
         window.phantom.solana.on('accountChanged', (publicKey) => {
             if (walletState.connected && walletState.walletName === 'Phantom') {
+                if (publicKey) {
+                    walletState.publicKey = publicKey.toString();
+                    refreshBalance();
+                    showToast('Conta alterada', 'info');
+                } else {
+                    disconnectWallet();
+                }
+            }
+        });
+    }
+    
+    if (window.solflare) {
+        window.solflare.on('disconnect', () => {
+            if (walletState.walletName === 'Solflare') {
+                disconnectWallet();
+            }
+        });
+        window.solflare.on('accountChanged', (publicKey) => {
+            if (walletState.connected && walletState.walletName === 'Solflare') {
                 if (publicKey) {
                     walletState.publicKey = publicKey.toString();
                     refreshBalance();
@@ -535,7 +564,6 @@ document.addEventListener('DOMContentLoaded', () => {
 if (typeof window.solanaWeb3 === 'undefined') {
     showToast('Carregando biblioteca Solana...', 'info');
     
-    // Aguardar carregamento
     const checkSolanaWeb3 = setInterval(() => {
         if (typeof window.solanaWeb3 !== 'undefined') {
             clearInterval(checkSolanaWeb3);
@@ -543,9 +571,8 @@ if (typeof window.solanaWeb3 === 'undefined') {
         }
     }, 1000);
     
-    // Timeout após 10 segundos
     setTimeout(() => {
-        if (typeof window.solanaWeb3 === 'undefined') {
+        if (typeof window.solanaWeb3 === ' Wundefined') {
             clearInterval(checkSolanaWeb3);
             showToast('Erro ao carregar biblioteca Solana', 'error');
         }
@@ -564,10 +591,10 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
         glow: !!window.glow
     });
     
-    // Testar deep links no mobile
     if (detectMobile()) {
         console.log('📲 Testando deep links para mobile...');
-        console.log('Phantom:', 'https://phantom.app/ul/browse/' + encodeURIComponent(window.location.href));
-        console.log('Solflare:', 'https://solflare.com/ul/v1/browse/' + encodeURIComponent(window.location.href));
+        SUPPORTED_WALLETS.forEach(wallet => {
+            console.log(`${wallet.name}:`, wallet.deepLink);
+        });
     }
 }

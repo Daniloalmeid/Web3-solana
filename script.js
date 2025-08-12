@@ -18,7 +18,7 @@ const SUPPORTED_WALLETS = [
         adapter: 'phantom',
         icon: 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjM0IiB3aWR0aD0iMzQiIHZpZXdCb3g9IjAgMCAzNCAzNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGxpbmVhckdyYWRpZW50IGlkPSJwaGFudG9tLWdyYWRpZW50IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjEuMTUiIHgyPSIyOS4xMyIgeTE9IjI5LjUiIHkyPSIxLjEzIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzlENzlGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNBQjhERkYiLz4KPC9saW5lYXJHcmFkaWVudD4KPHBhdGggZD0iTTE3IDBDMjYuMzg5IDAgMzQgNy42MTEgMzQgMTdDMzQgMjYuMzg5IDI2LjM4OSAzNCAxNyAzNEM3LjYxMSAzNCAwIDI2LjM4OSAwIDE3QzAgNy42MTEgNy42MTEgMCAxNyAwWiIgZmlsbD0idXJsKCNwaGFudG9tLWdyYWRpZW50KSIvPgo8L3N2Zz4K',
         url: 'https://phantom.app/download',
-        deepLink: 'https://phantom.app/ul/v1/connect?app_url=' + encodeURIComponent(window.location.origin) + '&dapp_encrypted_pub_key=' + encodeURIComponent('mock_encrypted_key') + '&redirect_uri=' + encodeURIComponent(window.location.href),
+        deepLink: `https://phantom.app/ul/v1/connect?app_url=${encodeURIComponent(window.location.origin)}&dapp_encrypted_pub_key=${encodeURIComponent('mock_encrypted_key_123')}&redirect_uri=${encodeURIComponent(window.location.href)}`,
         description: 'Carteira popular para Solana'
     },
     {
@@ -26,7 +26,7 @@ const SUPPORTED_WALLETS = [
         adapter: 'solflare',
         icon: 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjUwIiB2aWV3Qm94PSIwIDAgNTAgNTAiIHdpZHRoPSI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJhZGlhbEdyYWRpZW50IGlkPSJhIiBjeD0iMCIgY3k9IjAiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoLTguMzYwNTMgMTMuMjU5OSAyNC41MjE0IDUuMDA0NTMgMjMuNDgwMSA4LjY5OTkxKSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmNkMDAiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmY5NDAwIi8+CjwvcmFkaWFsR3JhZGllbnQ+CjxwYXRoIGQ9Im0yNS4wIDI1IDI0Ljk5OTEtMjQuOTk5MWgtNDkuOTk4Mmw0OS45OTgyIDQ5Ljk5ODJ2LTI1eiIgZmlsbD0idXJsKCNhKSIvPgo8L3N2Zz4K',
         url: 'https://solflare.com/download',
-        deepLink: 'https://solflare.com/ul/v1/connect?uri=' + encodeURIComponent(window.location.href) + '&redirect_uri=' + encodeURIComponent(window.location.href),
+        deepLink: `https://solflare.com/ul/v1/connect?uri=${encodeURIComponent(window.location.href)}&redirect_uri=${encodeURIComponent(window.location.href)}`,
         description: 'Carteira segura com suporte NFT'
     },
     {
@@ -34,7 +34,7 @@ const SUPPORTED_WALLETS = [
         adapter: 'backpack',
         icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMTAiIGZpbGw9IiMwMDAwMDAiLz4KPHBhdGggZD0iTTI1IDI1SDc1VjMwSDI1VjI1WiIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4K',
         url: 'https://www.backpack.app/download',
-        deepLink: 'backpack://connect?uri=' + encodeURIComponent(window.location.href),
+        deepLink: `backpack://connect?uri=${encodeURIComponent(window.location.href)}`,
         description: 'Carteira moderna da Coral'
     },
     {
@@ -42,7 +42,7 @@ const SUPPORTED_WALLETS = [
         adapter: 'glow',
         icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIiBmaWxsPSIjRkZEODAwIi8+Cjwvc3ZnPg==',
         url: 'https://glow.app/download',
-        deepLink: 'glow://connect?uri=' + encodeURIComponent(window.location.href),
+        deepLink: `glow://connect?uri=${encodeURIComponent(window.location.href)}`,
         description: 'Carteira com foco em DeFi'
     }
 ];
@@ -167,8 +167,8 @@ async function getBalance(publicKey) {
 
 // Verificar HTTPS
 if (window.location.protocol !== 'https:') {
-    console.warn('⚠️ O DApp deve estar em HTTPS para deep links e in-app browser funcionarem corretamente.');
-    showToast('Por favor, hospede o DApp em HTTPS para melhor compatibilidade.', 'error', 5000);
+    console.error('⚠️ O DApp DEVE estar em HTTPS para o in-app browser do Phantom funcionar. Use ngrok ou hospede em Vercel/Netlify.');
+    showToast('Erro: Hospede o DApp em HTTPS para conectar com o Phantom.', 'error', 5000);
 }
 
 // Interface de Carteiras
@@ -192,19 +192,10 @@ class WalletInterface {
             // Tentar abrir o deep link usando múltiplos métodos
             const deepLinkUrl = this.config.deepLink;
             
-            // Método 1: Usar iframe
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = deepLinkUrl;
-            document.body.appendChild(iframe);
+            // Método 1: Usar window.location.href diretamente
+            window.location.href = deepLinkUrl;
             
-            // Método 2: Usar window.location.href
-            setTimeout(() => {
-                window.location.href = deepLinkUrl;
-                document.body.removeChild(iframe);
-            }, 500);
-            
-            // Método 3: Fallback para window.open
+            // Método 2: Fallback para window.open
             setTimeout(() => {
                 window.open(deepLinkUrl, '_blank');
             }, 1000);
@@ -219,12 +210,27 @@ class WalletInterface {
             
             // Polling para verificar conexão
             let attempts = 0;
-            const maxAttempts = 30;
+            const maxAttempts = 40;
             return new Promise((resolve) => {
                 const checkConnection = setInterval(async () => {
                     attempts++;
                     const walletObj = this.config.adapter === 'phantom' ? window.phantom?.solana :
                                      this.config.adapter === 'solflare' ? window.solflare : null;
+                    if (walletObj && walletObj.isPhantom && !walletObj.isConnected) {
+                        // Tentar conexão automática se o objeto estiver disponível
+                        try {
+                            const response = await walletObj.connect();
+                            if (response && response.publicKey) {
+                                clearInterval(checkConnection);
+                                this.wallet = walletObj;
+                                const publicKey = response.publicKey.toString();
+                                console.log(`Conexão automática bem-sucedida com ${this.config.name} no mobile. PublicKey: ${publicKey}`);
+                                resolve({ publicKey, wallet: this.wallet, name: this.config.name });
+                            }
+                        } catch (error) {
+                            console.error(`Erro na conexão automática com ${this.config.name}:`, error);
+                        }
+                    }
                     if (walletObj && walletObj.isConnected && walletObj.publicKey) {
                         clearInterval(checkConnection);
                         this.wallet = walletObj;

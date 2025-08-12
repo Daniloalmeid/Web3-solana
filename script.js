@@ -18,7 +18,7 @@ const SUPPORTED_WALLETS = [
         adapter: 'phantom',
         icon: 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjM0IiB3aWR0aD0iMzQiIHZpZXdCb3g9IjAgMCAzNCAzNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGxpbmVhckdyYWRpZW50IGlkPSJwaGFudG9tLWdyYWRpZW50IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjEuMTUiIHgyPSIyOS4xMyIgeTE9IjI5LjUiIHkyPSIxLjEzIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzlENzlGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNBQjhERkYiLz4KPC9saW5lYXJHcmFkaWVudD4KPHBhdGggZD0iTTE3IDBDMjYuMzg5IDAgMzQgNy42MTEgMzQgMTdDMzQgMjYuMzg5IDI2LjM4OSAzNCAxNyAzNEM3LjYxMSAzNCAwIDI2LjM4OSAwIDE3QzAgNy42MTEgNy42MTEgMCAxNyAwWiIgZmlsbD0idXJsKCNwaGFudG9tLWdyYWRpZW50KSIvPgo8L3N2Zz4K',
         url: 'https://phantom.app/download',
-        deepLink: `https://phantom.app/ul/v1/connect?app_url=${encodeURIComponent(window.location.origin)}&dapp_encrypted_pub_key=${encodeURIComponent('mock_encrypted_key_123')}&redirect_uri=${encodeURIComponent(window.location.href)}`,
+        deepLink: `https://phantom.app/ul/v1/connect?app_url=${encodeURIComponent(window.location.origin)}&dapp_encrypted_pub_key=${encodeURIComponent('mock_encrypted_key_123')}&redirect_uri=${encodeURIComponent(window.location.href)}&cluster=mainnet-beta`,
         description: 'Carteira popular para Solana'
     },
     {
@@ -28,22 +28,6 @@ const SUPPORTED_WALLETS = [
         url: 'https://solflare.com/download',
         deepLink: `https://solflare.com/ul/v1/connect?uri=${encodeURIComponent(window.location.href)}&redirect_uri=${encodeURIComponent(window.location.href)}`,
         description: 'Carteira segura com suporte NFT'
-    },
-    {
-        name: 'Backpack',
-        adapter: 'backpack',
-        icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMTAiIGZpbGw9IiMwMDAwMDAiLz4KPHBhdGggZD0iTTI1IDI1SDc1VjMwSDI1VjI1WiIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4K',
-        url: 'https://www.backpack.app/download',
-        deepLink: `backpack://connect?uri=${encodeURIComponent(window.location.href)}`,
-        description: 'Carteira moderna da Coral'
-    },
-    {
-        name: 'Glow',
-        adapter: 'glow',
-        icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIiBmaWxsPSIjRkZEODAwIi8+Cjwvc3ZnPg==',
-        url: 'https://glow.app/download',
-        deepLink: `glow://connect?uri=${encodeURIComponent(window.location.href)}`,
-        description: 'Carteira com foco em DeFi'
     }
 ];
 
@@ -51,18 +35,15 @@ const SUPPORTED_WALLETS = [
 const elements = {
     connectBtn: document.getElementById('connectBtn'),
     disconnectBtn: document.getElementById('disconnectBtn'),
-    refreshBtn: document.getElementById('refreshBtn'),
-    copyBtn: document.getElementById('copyBtn'),
+    walletAddress: document.getElementById('walletAddress'),
+    walletBalance: document.getElementById('walletBalance'),
+    walletName: document.getElementById('walletName'),
     modalOverlay: document.getElementById('modalOverlay'),
     modalClose: document.getElementById('modalClose'),
     walletOptions: document.getElementById('walletOptions'),
     disconnectedState: document.getElementById('disconnectedState'),
     connectedState: document.getElementById('connectedState'),
     loadingState: document.getElementById('loadingState'),
-    walletAddress: document.getElementById('walletAddress'),
-    walletBalance: document.getElementById('walletBalance'),
-    walletName: document.getElementById('walletName'),
-    connectLoader: document.getElementById('connectLoader'),
     toastContainer: document.getElementById('toastContainer')
 };
 
@@ -72,9 +53,9 @@ function showToast(message, type = 'info', duration = 3000) {
     toast.className = `toast ${type}`;
     
     const icons = {
-        success: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>`,
-        error: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg>`,
-        info: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`
+        success: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>`,
+        error: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg>`,
+        info: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`
     };
     
     toast.innerHTML = `
@@ -130,18 +111,12 @@ function detectWallet(walletName) {
     
     const phantom = window.phantom?.solana;
     const solflare = window.solflare;
-    const backpack = window.backpack;
-    const glow = window.glow;
     
     switch (walletName) {
         case 'phantom':
             return phantom && phantom.isPhantom;
         case 'solflare':
             return solflare && solflare.isSolflare;
-        case 'backpack':
-            return backpack && backpack.isBackpack;
-        case 'glow':
-            return glow;
         default:
             return window.solana;
     }
@@ -184,23 +159,21 @@ class WalletInterface {
         const walletAdapter = !isMobile || isInAppBrowser ? detectWallet(this.config.adapter) : null;
         
         if (isMobile && !isInAppBrowser) {
-            // Limpar localStorage antes da conexão para evitar conflitos
+            // Limpar localStorage antes da conexão
             localStorage.removeItem('walletState');
             showToast(`Abrindo ${this.config.name}...`, 'info');
             console.log(`Tentando abrir deep link para ${this.config.name}: ${this.config.deepLink}`);
             
-            // Tentar abrir o deep link usando múltiplos métodos
+            // Tentar abrir o deep link
             const deepLinkUrl = this.config.deepLink;
-            
-            // Método 1: Usar window.location.href diretamente
             window.location.href = deepLinkUrl;
             
-            // Método 2: Fallback para window.open
+            // Fallback para window.open
             setTimeout(() => {
                 window.open(deepLinkUrl, '_blank');
             }, 1000);
             
-            // Fallback para página de download após 7 segundos
+            // Fallback para página de download
             setTimeout(() => {
                 if (!walletState.connected) {
                     showToast(`Se ${this.config.name} não abriu, baixe o aplicativo.`, 'info', 5000);
@@ -216,15 +189,15 @@ class WalletInterface {
                     attempts++;
                     const walletObj = this.config.adapter === 'phantom' ? window.phantom?.solana :
                                      this.config.adapter === 'solflare' ? window.solflare : null;
-                    if (walletObj && walletObj.isPhantom && !walletObj.isConnected) {
-                        // Tentar conexão automática se o objeto estiver disponível
+                    if (walletObj && !walletObj.isConnected) {
+                        // Tentar conexão automática
                         try {
                             const response = await walletObj.connect();
                             if (response && response.publicKey) {
                                 clearInterval(checkConnection);
                                 this.wallet = walletObj;
                                 const publicKey = response.publicKey.toString();
-                                console.log(`Conexão automática bem-sucedida com ${this.config.name} no mobile. PublicKey: ${publicKey}`);
+                                console.log(`Conexão automática bem-sucedida com ${this.config.name}. PublicKey: ${publicKey}`);
                                 resolve({ publicKey, wallet: this.wallet, name: this.config.name });
                             }
                         } catch (error) {
@@ -235,11 +208,11 @@ class WalletInterface {
                         clearInterval(checkConnection);
                         this.wallet = walletObj;
                         const publicKey = walletObj.publicKey.toString();
-                        console.log(`Conexão bem-sucedida com ${this.config.name} no mobile. PublicKey: ${publicKey}`);
+                        console.log(`Conexão bem-sucedida com ${this.config.name}. PublicKey: ${publicKey}`);
                         resolve({ publicKey, wallet: this.wallet, name: this.config.name });
                     } else if (attempts >= maxAttempts) {
                         clearInterval(checkConnection);
-                        console.log(`Timeout na conexão com ${this.config.name} no mobile após ${maxAttempts} tentativas`);
+                        console.log(`Timeout na conexão com ${this.config.name} após ${maxAttempts} tentativas`);
                         showToast(`Por favor, volte ao navegador após autorizar no ${this.config.name}.`, 'info', 5000);
                         resolve(null);
                     }
@@ -287,14 +260,6 @@ class WalletInterface {
                 case 'solflare':
                     response = await window.solflare.connect();
                     this.wallet = window.solflare;
-                    break;
-                case 'backpack':
-                    response = await window.backpack.connect();
-                    this.wallet = window.backpack;
-                    break;
-                case 'glow':
-                    response = await window.glow.connect();
-                    this.wallet = window.glow;
                     break;
                 default:
                     response = await walletAdapter.connect();
@@ -417,62 +382,6 @@ async function disconnectWallet() {
     }
 }
 
-async function refreshBalance() {
-    if (!walletState.connected || !walletState.publicKey) return;
-    
-    elements.refreshBtn.innerHTML = `
-        <div style="width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top: 2px solid currentColor; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-        Atualizando...
-    `;
-    elements.refreshBtn.disabled = true;
-    
-    try {
-        const balance = await getBalance(walletState.publicKey);
-        walletState.balance = balance;
-        updateConnectedState();
-        showToast('Saldo atualizado', 'success');
-    } catch (error) {
-        console.error('Erro ao atualizar saldo:', error);
-        showToast('Erro ao atualizar saldo', 'error');
-    } finally {
-        elements.refreshBtn.innerHTML = `
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
-                <path d="M21 3v5h-5"/>
-                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
-                <path d="M3 21v-5h5"/>
-            </svg>
-            Atualizar
-        `;
-        elements.refreshBtn.disabled = false;
-    }
-}
-
-function copyAddress() {
-    if (!walletState.publicKey) return;
-    
-    navigator.clipboard.writeText(walletState.publicKey).then(() => {
-        showToast('Endereço copiado!', 'success');
-        elements.copyBtn.innerHTML = `
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 12l2 2 4-4"/>
-                <circle cx="12" cy="12" r="10"/>
-            </svg>
-        `;
-        
-        setTimeout(() => {
-            elements.copyBtn.innerHTML = `
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-                    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-                </svg>
-            `;
-        }, 2000);
-    }).catch(() => {
-        showToast('Erro ao copiar endereço', 'error');
-    });
-}
-
 // Modal
 function openModal() {
     elements.modalOverlay.classList.remove('hidden');
@@ -523,9 +432,7 @@ async function tryAutoReconnect() {
         
         if (walletConfig && detectWallet(walletConfig.adapter)) {
             const walletAdapter = walletConfig.adapter === 'phantom' ? window.phantom?.solana :
-                                 walletConfig.adapter === 'solflare' ? window.solflare :
-                                 walletConfig.adapter === 'backpack' ? window.backpack :
-                                 window.glow;
+                                 walletConfig.adapter === 'solflare' ? window.solflare : null;
             if (walletAdapter && walletAdapter.isConnected) {
                 walletState.connected = true;
                 walletState.wallet = walletAdapter;
@@ -551,8 +458,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Botões principais
     elements.connectBtn.addEventListener('click', openModal);
     elements.disconnectBtn.addEventListener('click', disconnectWallet);
-    elements.refreshBtn.addEventListener('click', refreshBalance);
-    elements.copyBtn.addEventListener('click', copyAddress);
     
     // Modal
     elements.modalClose.addEventListener('click', closeModal);
@@ -584,9 +489,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (walletState.connected && walletState.walletName === 'Phantom') {
                 if (publicKey) {
                     walletState.publicKey = publicKey.toString();
-                    refreshBalance();
-                    showToast('Conta alterada', 'info');
-                    console.log('Conta Phantom alterada:', publicKey.toString());
+                    getBalance(publicKey).then(balance => {
+                        walletState.balance = balance;
+                        updateConnectedState();
+                        showToast('Conta alterada', 'info');
+                        console.log('Conta Phantom alterada:', publicKey.toString());
+                    });
                 } else {
                     disconnectWallet();
                 }
@@ -605,9 +513,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (walletState.connected && walletState.walletName === 'Solflare') {
                 if (publicKey) {
                     walletState.publicKey = publicKey.toString();
-                    refreshBalance();
-                    showToast('Conta alterada', 'info');
-                    console.log('Conta Solflare alterada:', publicKey.toString());
+                    getBalance(publicKey).then(balance => {
+                        walletState.balance = balance;
+                        updateConnectedState();
+                        showToast('Conta alterada', 'info');
+                        console.log('Conta Solflare alterada:', publicKey.toString());
+                    });
                 } else {
                     disconnectWallet();
                 }
@@ -645,9 +556,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
     console.log('🌐 User Agent:', navigator.userAgent);
     console.log('💰 Carteiras detectadas:', {
         phantom: !!window.phantom?.solana,
-        solflare: !!window.solflare,
-        backpack: !!window.backpack,
-        glow: !!window.glow
+        solflare: !!window.solflare
     });
     
     if (detectMobile()) {

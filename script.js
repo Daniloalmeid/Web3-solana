@@ -117,9 +117,14 @@ function detectMobile() {
     return isMobile || (isTablet && isTouchDevice);
 }
 
+function isPhantomInAppBrowser() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    return /Phantom/i.test(userAgent);
+}
+
 function detectWallet(walletName) {
     const isMobile = detectMobile();
-    if (isMobile) {
+    if (isMobile && !isPhantomInAppBrowser()) {
         return true; // Assumir que a carteira pode estar instalada no mobile
     }
     
@@ -169,9 +174,10 @@ class WalletInterface {
     
     async connect() {
         const isMobile = detectMobile();
-        const walletAdapter = !isMobile ? detectWallet(this.config.adapter) : null;
+        const isInAppBrowser = isPhantomInAppBrowser();
+        const walletAdapter = !isMobile || isInAppBrowser ? detectWallet(this.config.adapter) : null;
         
-        if (isMobile) {
+        if (isMobile && !isInAppBrowser) {
             // Limpar localStorage antes da conexão para evitar conflitos
             localStorage.removeItem('walletState');
             showToast(`Abrindo ${this.config.name}...`, 'info');
@@ -207,7 +213,7 @@ class WalletInterface {
             
             // Polling para verificar conexão
             let attempts = 0;
-            const maxAttempts = 15;
+            const maxAttempts = 20;
             return new Promise((resolve) => {
                 const checkConnection = setInterval(async () => {
                     attempts++;
@@ -227,6 +233,29 @@ class WalletInterface {
                     }
                 }, 1000);
             });
+        }
+        
+        if (isInAppBrowser && this.config.adapter === 'phantom') {
+            showToast('Conectando com Phantom no navegador interno...', 'info');
+            try {
+                const response = await window.phantom.solana.connect();
+                this.wallet = window.phantom.solana;
+                if (response && response.publicKey) {
+                    const publicKey = response.publicKey.toString();
+                    console.log(`Conexão bem-sucedida com ${this.config.name} no in-app browser. PublicKey: ${publicKey}`);
+                    return {
+                        publicKey,
+                        wallet: this.wallet,
+                        name: this.config.name
+                    };
+                }
+                console.log('Nenhuma chave pública retornada pelo Phantom no in-app browser');
+                return null;
+            } catch (error) {
+                console.error(`Erro ao conectar ${this.config.name} no in-app browser:`, error);
+                showToast(`Erro ao conectar: ${error.message}`, 'error');
+                return null;
+            }
         }
         
         if (!walletAdapter) {
@@ -600,6 +629,7 @@ if (typeof window.solanaWeb3 === 'undefined') {
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     console.log('🚀 Solana Wallet Connect Debug Mode');
     console.log('📱 Mobile:', detectMobile());
+    console.log('🌐 In-App Browser:', isPhantomInAppBrowser());
     console.log('🌐 User Agent:', navigator.userAgent);
     console.log('💰 Carteiras detectadas:', {
         phantom: !!window.phantom?.solana,

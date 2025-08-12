@@ -18,7 +18,7 @@ const SUPPORTED_WALLETS = [
         adapter: 'phantom',
         icon: 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjM0IiB3aWR0aD0iMzQiIHZpZXdCb3g9IjAgMCAzNCAzNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGxpbmVhckdyYWRpZW50IGlkPSJwaGFudG9tLWdyYWRpZW50IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjEuMTUiIHgyPSIyOS4xMyIgeTE9IjI5LjUiIHkyPSIxLjEzIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzlENzlGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNBQjhERkYiLz4KPC9saW5lYXJHcmFkaWVudD4KPHBhdGggZD0iTTE3IDBDMjYuMzg5IDAgMzQgNy42MTEgMzQgMTdDMzQgMjYuMzg5IDI2LjM4OSAzNCAxNyAzNEM3LjYxMSAzNCAwIDI2LjM4OSAwIDE3QzAgNy42MTEgNy42MTEgMCAxNyAwWiIgZmlsbD0idXJsKCNwaGFudG9tLWdyYWRpZW50KSIvPgo8L3N2Zz4K',
         url: 'https://phantom.app/download',
-        deepLink: 'https://phantom.app/ul/v1/connect?app_url=' + encodeURIComponent(window.location.origin) + '&dapp_encrypted_pub_key=' + encodeURIComponent(''),
+        deepLink: 'https://phantom.app/ul/browse/' + encodeURIComponent(window.location.href),
         description: 'Carteira popular para Solana'
     },
     {
@@ -26,7 +26,7 @@ const SUPPORTED_WALLETS = [
         adapter: 'solflare',
         icon: 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjUwIiB2aWV3Qm94PSIwIDAgNTAgNTAiIHdpZHRoPSI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJhZGlhbEdyYWRpZW50IGlkPSJhIiBjeD0iMCIgY3k9IjAiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoLTguMzYwNTMgMTMuMjU5OSAyNC41MjE0IDUuMDA0NTMgMjMuNDgwMSA4LjY5OTkxKSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmNkMDAiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmY5NDAwIi8+CjwvcmFkaWFsR3JhZGllbnQ+CjxwYXRoIGQ9Im0yNS4wIDI1IDI0Ljk5OTEtMjQuOTk5MWgtNDkuOTk4Mmw0OS45OTgyIDQ5Ljk5ODJ2LTI1eiIgZmlsbD0idXJsKCNhKSIvPgo8L3N2Zz4K',
         url: 'https://solflare.com/download',
-        deepLink: 'solflare://connect?uri=' + encodeURIComponent(window.location.href),
+        deepLink: 'https://solflare.com/ul/v1/connect?uri=' + encodeURIComponent(window.location.href),
         description: 'Carteira segura com suporte NFT'
     },
     {
@@ -173,12 +173,27 @@ class WalletInterface {
         
         if (isMobile) {
             showToast(`Abrindo ${this.config.name}...`, 'info');
+            console.log(`Tentando abrir deep link para ${this.config.name}: ${this.config.deepLink}`);
             
+            // Tentar abrir o deep link usando múltiplos métodos
             const deepLinkUrl = this.config.deepLink;
-            console.log(`Tentando abrir deep link para ${this.config.name}: ${deepLinkUrl}`);
             
-            // Tentar abrir o deep link diretamente
-            window.location.href = deepLinkUrl;
+            // Método 1: Usar iframe
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = deepLinkUrl;
+            document.body.appendChild(iframe);
+            
+            // Método 2: Usar window.location.href
+            setTimeout(() => {
+                window.location.href = deepLinkUrl;
+                document.body.removeChild(iframe);
+            }, 500);
+            
+            // Método 3: Fallback para window.open
+            setTimeout(() => {
+                window.open(deepLinkUrl, '_blank');
+            }, 1000);
             
             // Fallback para página de download após 5 segundos
             setTimeout(() => {
@@ -188,7 +203,31 @@ class WalletInterface {
                 }
             }, 5000);
             
-            return null; // No mobile, a conexão é concluída via redirecionamento
+            // Polling para verificar conexão
+            let attempts = 0;
+            const maxAttempts = 10;
+            return new Promise((resolve) => {
+                const checkConnection = setInterval(async () => {
+                    attempts++;
+                    if (this.config.adapter === 'phantom' && window.phantom?.solana?.isConnected) {
+                        clearInterval(checkConnection);
+                        this.wallet = window.phantom.solana;
+                        const publicKey = this.wallet.publicKey.toString();
+                        console.log(`Conexão bem-sucedida com ${this.config.name} no mobile. PublicKey: ${publicKey}`);
+                        resolve({ publicKey, wallet: this.wallet, name: this.config.name });
+                    } else if (this.config.adapter === 'solflare' && window.solflare?.isConnected) {
+                        clearInterval(checkConnection);
+                        this.wallet = window.solflare;
+                        const publicKey = this.wallet.publicKey.toString();
+                        console.log(`Conexão bem-sucedida com ${this.config.name} no mobile. PublicKey: ${publicKey}`);
+                        resolve({ publicKey, wallet: this.wallet, name: this.config.name });
+                    } else if (attempts >= maxAttempts) {
+                        clearInterval(checkConnection);
+                        console.log(`Timeout na conexão com ${this.config.name} no mobile`);
+                        resolve(null);
+                    }
+                }, 1000);
+            });
         }
         
         if (!walletAdapter) {

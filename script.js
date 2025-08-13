@@ -11,14 +11,14 @@ let walletState = {
     walletName: null
 };
 
-// Lista de carteiras suportadas
+// Lista de carteiras suportadas (apenas Phantom e Solflare)
 const SUPPORTED_WALLETS = [
     {
         name: 'Phantom',
         adapter: 'phantom',
         icon: 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjM0IiB3aWR0aD0iMzQiIHZpZXdCb3g9IjAgMCAzNCAzNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGxpbmVhckdyYWRpZW50IGlkPSJwaGFudG9tLWdyYWRpZW50IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjEuMTUiIHgyPSIyOS4xMyIgeTE9IjI5LjUiIHkyPSIxLjEzIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzlENzlGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNBQjhERkYiLz4KPC9saW5lYXJHcmFkaWVudD4KPHBhdGggZD0iTTE3IDBDMjYuMzg5IDAgMzQgNy42MTEgMzQgMTdDMzQgMjYuMzg5IDI2LjM4OSAzNCAxNyAzNEM3LjYxMSAzNCAwIDI2LjM4OSAwIDE3QzAgNy42MTEgNy42MTEgMCAxNyAwWiIgZmlsbD0idXJsKCNwaGFudG9tLWdyYWRpZW50KSIvPgo8L3N2Zz4K',
         url: 'https://phantom.app/download',
-        deepLink: `https://phantom.app/ul/v1/connect?app_url=${encodeURIComponent(window.location.origin)}&dapp_encrypted_pub_key=${encodeURIComponent('mock_encrypted_key_123')}&redirect_uri=${encodeURIComponent(window.location.href)}&cluster=mainnet-beta`,
+        deepLink: `https://phantom.app/ul/v1/connect?app_url=${encodeURIComponent(window.location.origin)}&redirect_uri=${encodeURIComponent(window.location.href)}&cluster=mainnet-beta`,
         description: 'Carteira popular para Solana'
     },
     {
@@ -183,7 +183,7 @@ class WalletInterface {
             
             // Polling para verificar conexão
             let attempts = 0;
-            const maxAttempts = 40;
+            const maxAttempts = 60;
             return new Promise((resolve) => {
                 const checkConnection = setInterval(async () => {
                     attempts++;
